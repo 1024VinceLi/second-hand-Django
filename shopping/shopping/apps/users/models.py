@@ -1,3 +1,16 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
+
+class User(AbstractUser):
+    """用户模型类"""
+                             # 最大长度为11    唯一,不可重复    昵称为 手机号
+    mobile = models.CharField(max_length=11, unique=True, verbose_name="手机号")
+
+    class Meta:
+        db_table = "tb_users"
+        verbose_name = '用户'  # 人性化显示
+
+        verbose_name_plural = verbose_name
+        # plural  复数形式

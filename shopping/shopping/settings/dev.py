@@ -200,6 +200,10 @@ REST_FRAMEWORK = {
 }
 
 
+# 注册模型类
+AUTH_USER_MODEL = "users.User"
+
+
 
 # 语言设置
 LANGUAGE_CODE = 'zh-hans'
