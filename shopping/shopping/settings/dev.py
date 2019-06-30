@@ -105,14 +105,21 @@ DATABASES = {
 CACHES = {
     "default": {  # 默认信息存储
         "BACKEND": "django_redis.cache.RedisCache",  # 存储到redis缓存中
-        "LOCATION": "redis://10.211.55.5:6379/0",
+        "LOCATION": "redis://10.211.55.5:6379/0",   # 0号仓库
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "session": {  # session信息存储
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.5:6379/1",
+        "LOCATION": "redis://10.211.55.5:6379/1",  # 1号仓库
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "verify_codes": {  # 图片验证码存储
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://10.211.55.5:6379/2",   # 2号仓库
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
