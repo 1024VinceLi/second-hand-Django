@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # 'shopping.apps.users.apps.UsersConfig' # 注册应用
     'users.apps.UsersConfig' # 注册应用
 
+
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,7 @@ DATABASES = {
 # redis数据库配置信息
 CACHES = {
     "default": {  # 默认信息存储
-        "BACKEND": "django_redis.cache.RedisCache",
+        "BACKEND": "django_redis.cache.RedisCache",  # 存储到redis缓存中
         "LOCATION": "redis://10.211.55.5:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
@@ -120,7 +121,7 @@ CACHES = {
 
 
 # 给adim站点使用
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # cache 缓存
 SESSION_CACHE_ALIAS = "session"
 
 
@@ -190,6 +191,12 @@ LOGGING = {
             'propagate': True,
         },
     }
+}
+
+
+REST_FRAMEWORK = {
+    # 异常处理
+    'EXCEPTION_HANDLER': 'meiduo_mall.utils.exceptions.exception_handler',
 }
 
 
