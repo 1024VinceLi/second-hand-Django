@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     # 'shopping.apps.users.apps.UsersConfig' # 注册应用
-    'users.apps.UsersConfig' # 注册应用
-
+    'users.apps.UsersConfig', # 注册应用
+    'verifications.apps.VerificationsConfig'  # 注册图片验证码子应用
 
 ]
 
