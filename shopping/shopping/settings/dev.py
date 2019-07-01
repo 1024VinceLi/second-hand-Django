@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
+# from rest_framework.renderers import BrowsableAPIRenderer
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -106,21 +107,21 @@ DATABASES = {
 CACHES = {
     "default": {  # 默认信息存储
         "BACKEND": "django_redis.cache.RedisCache",  # 存储到redis缓存中
-        "LOCATION": "redis://10.211.55.5:6379/0",   # 0号仓库
+        "LOCATION": "redis://127.0.0.1:6379/0",   # 0号仓库
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "session": {  # session信息存储
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.5:6379/1",  # 1号仓库
+        "LOCATION": "redis://127.0.0.1:6379/1",  # 1号仓库
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "verify_codes": {  # 图片验证码存储
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.211.55.5:6379/2",   # 2号仓库
+        "LOCATION": "redis://127.0.0.1:6379/2",   # 2号仓库
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -204,7 +205,11 @@ LOGGING = {
 
 REST_FRAMEWORK = {
     # 异常处理
-    'EXCEPTION_HANDLER': 'meiduo_mall.utils.exceptions.exception_handler',
+    'EXCEPTION_HANDLER': 'shopping.utils.exceptions.exception_handler',
+    "DEFAULT_RENDERER_CLASSES":(  # 默认响应渲染类
+        'rest_framework.renderers.JSONRenderer',  # json渲染器
+        'rest_framework.renderers.BrowsableAPIRenderer'  # 浏览API渲染器
+    )
 }
 
 
