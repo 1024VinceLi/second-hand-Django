@@ -43,7 +43,7 @@ class ImageCodeCheckSerializer(serializers.Serializer):
             raise serializers.ValidationError("图片验证码不正确")
 
         # 判断是否在60秒内
-        mobile = self.context['views'].kwargs['mobile']
+        mobile = self.context['view'].kwargs['mobile']
         send_flag = redis_conn.get("send_flag_%s" % mobile)
         if send_flag:  # send_flag 是发送记录
             # 如果取出来了,则表示这个手机号在60秒没请求过一次

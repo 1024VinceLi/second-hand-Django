@@ -75,10 +75,12 @@ class SMSCodeView(GenericAPIView):
         serializer = self.get_serializer(data = request.query_params)
 
         # 校验参数
-        serializer.is_valid(raise_excaption=True)
+        serializer.is_valid(raise_exception=True)
 
         # 生成短信验证码
         sms_code = '%06d' % random.randint(0,999999)
+
+        print("短信验证码: %s" % sms_code)
 
         # 保存短信验证码  发送记录(send_flag)
         redis_conn = get_redis_connection('verify_codes')
@@ -101,27 +103,32 @@ class SMSCodeView(GenericAPIView):
 
         # 发送短信
         try:
-            ccp = CCP()
-            expires = constants.SMS_CODE_REDIS_EXPIRES // 60
-            #expires 到期
-
-            # 发送短信模板
-            result = ccp.send_template_sms(mobile, [sms_code, expires], constants.SMS_CODE_CODE_TEMP_ID)
+            # pass
+            # ccp = CCP()
+            # expires = constants.SMS_CODE_REDIS_EXPIRES // 60
+            # #expires 到期
+            #
+            # # 发送短信模板
+            # result = ccp.send_template_sms(mobile, [sms_code, expires], constants.SMS_CODE_CODE_TEMP_ID)
+            result = 0
         except Exception as e:
             logger.error('发送短信验证码[异常]')
             return Response({"message": 'failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             if result == 0:
                 # 发送成功
+
+                # 返回
+                """
+                CCP 返回0 表示发送短信成功
+                    返回-1 表示发送失败
+                """
+
                 logger.error('发送短信验证码[正常]')
                 return Response({"message":'OK'})
             else:
                 logger.error('发送短信验证码[失败]')
                 return Response({"message":'failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        # 返回
-        """
-        CCP 返回0 表示发送短信成功
-            返回-1 表示发送失败
-        """
+
 

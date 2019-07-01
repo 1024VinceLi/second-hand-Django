@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import sys
-# from rest_framework.renderers import BrowsableAPIRenderer
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,11 +45,12 @@ INSTALLED_APPS = [
     "rest_framework",
     # 'shopping.apps.users.apps.UsersConfig' # 注册应用
     'users.apps.UsersConfig', # 注册应用
-    'verifications.apps.VerificationsConfig'  # 注册图片验证码子应用
-
+    'verifications.apps.VerificationsConfig',  # 注册图片验证码子应用
+    'corsheaders', # 处理跨域请求第三方件
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'shopping.urls'
@@ -134,7 +136,14 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # cache 缓存
 SESSION_CACHE_ALIAS = "session"
 
 
-
+# CORS设置白名单
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:8080',
+    'localhost:8080',
+    'www.meiduo.site.8080',
+    'api.meiduo.site.8000',
+)
+CORS_ALLOW_CREDENTIALS = True # 允许携带cookie
 
 
 # Password validation
