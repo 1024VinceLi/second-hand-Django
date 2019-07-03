@@ -12,12 +12,13 @@ from django_redis import get_redis_connection
 from shopping.libs.captcha.captcha import captcha
 import logging
 
-from shopping.utils.exceptions import logger
+from users.models import User
 from verifications.serializers import ImageCodeCheckSerializer
 from shopping.utils.yuntongxun.sms import CCP
-
 from . import constants
+from  celery_tasks.sms.task import send_sms_code
 
+logger = logging.getLogger('django')
 
 class ImageCodeView(APIView):
     """
@@ -101,34 +102,81 @@ class SMSCodeView(GenericAPIView):
 
 
 
-        # 发送短信
-        try:
-            # pass
-            # ccp = CCP()
-            # expires = constants.SMS_CODE_REDIS_EXPIRES // 60
-            # #expires 到期
-            #
-            # # 发送短信模板
-            # result = ccp.send_template_sms(mobile, [sms_code, expires], constants.SMS_CODE_CODE_TEMP_ID)
-            result = 0
-        except Exception as e:
-            logger.error('发送短信验证码[异常]')
-            return Response({"message": 'failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            if result == 0:
-                # 发送成功
+        # # 发送短信
+        # try:
+        #     # pass
+        #     # ccp = CCP()
+        #     # expires = constants.SMS_CODE_REDIS_EXPIRES // 60
+        #     # #expires 到期
+        #     #
+        #     # # 发送短信模板
+        #     # result = ccp.send_template_sms(mobile, [sms_code, expires], constants.SMS_CODE_CODE_TEMP_ID)
+        #     result = 0
+        # except Exception as e:
+        #     logger.error('发送短信验证码[异常]')
+        #     return Response({"message": 'failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # else:
+        #     if result == 0:
+        #         # 发送成功
+        #
+        #         # 返回
+        #         """
+        #         CCP 返回0 表示发送短信成功
+        #             返回-1 表示发送失败
+        #         """
+        #
+        #         logger.error('发送短信验证码[正常]')
+        #         return Response({"message":'OK'})
+        #     else:
+        #         logger.error('发送短信验证码[失败]')
+        #         return Response({"message":'failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-                # 返回
-                """
-                CCP 返回0 表示发送短信成功
-                    返回-1 表示发送失败
-                """
+        # 使用celery发送短信
+        expires = constants.SMS_CODE_REDIS_EXPIRES // 60
+        #expires 到期
 
-                logger.error('发送短信验证码[正常]')
-                return Response({"message":'OK'})
-            else:
-                logger.error('发送短信验证码[失败]')
-                return Response({"message":'failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # 将任务发送到队列
+        send_sms_code.delay(mobile, sms_code, expires, constants.SMS_CODE_TEMP_ID)
+        return Response({'message': 'OK'})
+
+class UsernameCountView(APIView):
+    """
+    用户数量
+    """
+
+    def get(self, request, username):
+        """
+        获取指定用户数量
+        :param request:
+        :param username:
+        :return:
+        """
+
+        count = User.objects.filter(username=username).count()
+
+        data = {
+            'username' : username,
+            'count': count
+        }
+
+        return Response(data)
 
 
 
+# url(r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$', views.MobileCountView.as_view()),
+class MobileCountView(APIView):
+    """
+    手机号数量
+    """
+    def get(self, request, mobile):
+        """
+        获取指定手机号数量
+        """
+        count = User.objects.filter(mobile=mobile).count()
+
+        data = {
+            'mobile': mobile,
+            'count': count
+        }
+
+        return Response(data)
