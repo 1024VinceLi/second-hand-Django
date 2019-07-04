@@ -1,4 +1,9 @@
 from celery import Celery
+import os
+
+if not os.getenv('DJANGO_SETTINGS_MODULE'):
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'shopping.settings.dev'
+
 
 # 创建celery应用
 celery_app = Celery("meiduo")

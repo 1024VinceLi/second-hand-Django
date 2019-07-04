@@ -139,44 +139,6 @@ class SMSCodeView(GenericAPIView):
         send_sms_code.delay(mobile, sms_code, expires, constants.SMS_CODE_TEMP_ID)
         return Response({'message': 'OK'})
 
-class UsernameCountView(APIView):
-    """
-    用户数量
-    """
-
-    def get(self, request, username):
-        """
-        获取指定用户数量
-        :param request:
-        :param username:
-        :return:
-        """
-
-        count = User.objects.filter(username=username).count()
-
-        data = {
-            'username' : username,
-            'count': count
-        }
-
-        return Response(data)
 
 
 
-# url(r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$', views.MobileCountView.as_view()),
-class MobileCountView(APIView):
-    """
-    手机号数量
-    """
-    def get(self, request, mobile):
-        """
-        获取指定手机号数量
-        """
-        count = User.objects.filter(mobile=mobile).count()
-
-        data = {
-            'mobile': mobile,
-            'count': count
-        }
-
-        return Response(data)

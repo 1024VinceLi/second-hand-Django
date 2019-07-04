@@ -1,5 +1,8 @@
+import re
 from django_redis import get_redis_connection
 from rest_framework import serializers
+
+from users.models import User
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
