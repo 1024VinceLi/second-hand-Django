@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import datetime
 import os
 import sys
 
@@ -215,10 +215,19 @@ LOGGING = {
 REST_FRAMEWORK = {
     # 异常处理
     'EXCEPTION_HANDLER': 'shopping.utils.exceptions.exception_handler',
-    "DEFAULT_RENDERER_CLASSES":(  # 默认响应渲染类
-        'rest_framework.renderers.JSONRenderer',  # json渲染器
-        'rest_framework.renderers.BrowsableAPIRenderer'  # 浏览API渲染器
-    )
+    # "DEFAULT_RENDERER_CLASSES":(  # 默认响应渲染类
+    #     'rest_framework.renderers.JSONRenderer',  # json渲染器
+    #     'rest_framework.renderers.BrowsableAPIRenderer'  # 浏览API渲染器
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+JWT_AUTH = {  # JWT配置 token有效期为1天
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
 }
 
 

@@ -219,6 +219,14 @@ var vm = new Vue({
                     responseType: 'json'
                 })
                     .then(response => {
+
+                        localStorage.clear(); // 读取数据
+                        sessionStorage.clear();  // 清除所有sessionStorage保存的数据
+
+                        localStorage.token = response.data.token;  // 保存数据
+                        localStorage.username = response.data.username; // 读取数据
+                        localStorage.user_id = response.data.id; // 清除所有localStorage保存的数据
+
                         location.href = '/index.html';
                     })
                     .catch(error => {
