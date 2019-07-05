@@ -26,11 +26,40 @@ print(sys.path)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'e&c2x^9t7)q)gt0ukne91*g=-^jwtj41n=edo_0h@-^kp$r%&u'
 
+
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+
+
 # 配置前后端域名
 ALLOWED_HOSTS = ["127.0.0.1", 'www.meiduo.site', 'api.meiduo.site', 'localhost']
+
+
+
+
+
+
+
+
+# QQ登录参数配置
+QQ_CLIENT_ID = '101474184'
+QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'
+QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'
+QQ_STATE = '/'
+
+
+
+
+
+
+
+
+
+
 
 
 # Application definition
@@ -47,7 +76,17 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig', # 注册应用
     'verifications.apps.VerificationsConfig',  # 注册图片验证码子应用
     'corsheaders', # 处理跨域请求第三方件
+    'oauth.apps.OauthConfig',
 ]
+
+
+
+
+
+
+
+
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -61,7 +100,14 @@ MIDDLEWARE = [
 
 ]
 
+
+
+
 ROOT_URLCONF = 'shopping.urls'
+
+
+
+
 
 TEMPLATES = [
     {
@@ -79,6 +125,13 @@ TEMPLATES = [
     },
 ]
 
+
+
+
+
+
+
+
 WSGI_APPLICATION = 'shopping.wsgi.application'
 
 
@@ -91,6 +144,12 @@ WSGI_APPLICATION = 'shopping.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+
+
+
+
+
 
 # mysql数据库配置信息
 DATABASES = {
@@ -131,9 +190,27 @@ CACHES = {
 }
 
 
+
+
+
+
+
 # 给adim站点使用
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # cache 缓存
 SESSION_CACHE_ALIAS = "session"
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # CORS设置白名单
@@ -143,6 +220,11 @@ CORS_ORIGIN_WHITELIST = (
     'www.meiduo.site:8080',
     'api.meiduo.site:8000',
 )
+
+
+
+
+
 CORS_ALLOW_CREDENTIALS = True # 允许携带cookie
 
 
@@ -167,6 +249,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
+
+
+
+
+
+
+
+
+
 
 
 # 设置日志
