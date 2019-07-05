@@ -232,6 +232,10 @@ JWT_AUTH = {  # JWT配置 token有效期为1天
 }
 
 
+AUTHENTICATION_BACKENDS = [
+    'users.utils.UsernameMobileAuthBackend'
+]
+
 # 注册模型类
 AUTH_USER_MODEL = "users.User"
 
