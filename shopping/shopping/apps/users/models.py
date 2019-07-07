@@ -7,6 +7,7 @@ class User(AbstractUser):
     """用户模型类"""
                              # 最大长度为11    唯一,不可重复    昵称为 手机号
     mobile = models.CharField(max_length=11, unique=True, verbose_name="手机号")
+    email_active = models.BooleanField(default=False, verbose_name='邮箱验证状态')
 
     class Meta:
         db_table = "tb_users"
