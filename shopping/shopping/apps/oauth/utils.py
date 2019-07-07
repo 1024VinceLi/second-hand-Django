@@ -1,6 +1,6 @@
 from urllib.parse import urlencode, parse_qs
 from urllib.request import urlopen
-# from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadData
+from itsdangerous import TimedJSONWebSignatureSerializer as TJWSSerializer, BadData
 from django.conf import settings
 import json
 import logging
@@ -82,13 +82,22 @@ class OAuthQQ(object):
         return openid
 
     @staticmethod
-    def generate_save_user_token(openid):
+    def check_save_user_token(token):
         """
-        生成保存用户数据的token
-        :param openid: 用户的openid
-        :return: token
+        检验保存用户数据的token
+        :param token: token
+        :return: openid or None
         """
-        serializer = Serializer(settings.SECRET_KEY, expires_in=constants.SAVE_QQ_USER_TOKEN_EXPIRES)
-        data = {'openid': openid}
-        token = serializer.dumps(data)
+        serializer = TJWSSerializer(settings.SECRET_KEY, constants.SAVE_QQ_USER_TOKEN_EXPIRES)
+        try:
+            data = serializer.loads(token)
+        except BadData:
+            return None
+        else:
+            return data.get('openid')
+
+
+    def generate_bind_user_access_token(self, openid):
+        serializer = TJWSSerializer(settings.SECRET_KEY, constants.BIND_USER_ACCESS_TOKEN_EXPIRES)
+        token = serializer.dumps({'openid':openid})
         return token.decode()
