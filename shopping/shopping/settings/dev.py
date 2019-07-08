@@ -117,6 +117,7 @@ INSTALLED_APPS = [
     'verifications.apps.VerificationsConfig',  # 注册图片验证码子应用
     'corsheaders', # 处理跨域请求第三方件
     'oauth.apps.OauthConfig',
+    'areas.apps.AreasConfig', # 行政区app注册
 ]
 
 
