@@ -7,6 +7,7 @@ import logging
 
 from rest_framework.serializers import Serializer
 
+from oauth.exceptions import QQAPIError
 from . import constants
 
 logger = logging.getLogger('django')
@@ -58,6 +59,7 @@ class OAuthQQ(object):
         access_token = data.get('access_token', None)
         if not access_token:
             logger.error('code=%s msg=%s' % (data.get('code'), data.get('msg')))
+            from oauth.exceptions import QQAPIError
             raise QQAPIError
 
         return access_token[0]

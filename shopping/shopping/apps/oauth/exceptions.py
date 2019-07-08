@@ -1,0 +1,3 @@
+
+class QQAPIError(Exception):
+    pass
