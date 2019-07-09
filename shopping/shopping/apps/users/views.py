@@ -4,11 +4,12 @@ from django.shortcuts import render
 from rest_framework import status
 
 from rest_framework.generics import GenericAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users import serializers
+from users import serializers, constants
 from users.models import User
 
 
@@ -132,11 +133,27 @@ class VerifyEmailView(APIView):
             return Response({'message':'OK'})
 
 
+class AddressView(CreateModelMixin, UpdateModelMixin, GenericAPIView):
+    """
+    用户地址新增与修改
+    """
+    serializer_class = serializers.UserAddrerssSerializer
 
 
+    def create(self, request, *args, **kwargs):
+        """
+        保存用户地址数据
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
 
+        count = request.user.addresses.count()
+        if count >= constants.USER_ADDRESS_COUNTS_LIMIT:
+            return Response({'message': '保存地址数据已经到达上限'}, status=status.HTTP_400_BAD_REQUEST)
 
-
+        return super().create(request, *args, **kwargs)
 
 
 
