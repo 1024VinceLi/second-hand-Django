@@ -254,6 +254,38 @@ SESSION_CACHE_ALIAS = "session"
 
 
 
+
+#DRF缓存扩展
+REST_FRAMEWORK_EXTENSIONS = {
+    # 缓存时间
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
+
+    # 缓存存储
+    'DEFAULT_USER_CACHE': 'default',
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # CORS设置白名单
 CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:8080',

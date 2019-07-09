@@ -3,16 +3,17 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from .models import Area
 from .serializers import AreaSerializer, SubAreaSerializer
 
 
-class AreasViewSet(ReadOnlyModelViewSet):
+class AreasViewSet(CacheResponseMixin, ReadOnlyModelViewSet):
     """
     行政区划信息
     """
-    pagination_class = None # 区域划分不分页
+    pagination_class = None # 区域划分不分页(禁止分页)
 
     def get_queryset(self):
         """

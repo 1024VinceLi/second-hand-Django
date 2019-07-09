@@ -100,8 +100,9 @@ class EmailView(UpdateAPIView):
     """
     保存用户邮箱
     """
+    serializer_class = serializers.EmailSerializer
     permission_classes = [IsAuthenticated]
-    serializers_class = serializers.EmailSerializer
+
 
     def get_object(self, *args, **kwargs):
         return self.request.user
