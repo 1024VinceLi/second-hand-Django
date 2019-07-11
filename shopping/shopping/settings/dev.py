@@ -157,7 +157,7 @@ INSTALLED_APPS = [
     'corsheaders', # 处理跨域请求第三方件
     'oauth.apps.OauthConfig',
     'areas.apps.AreasConfig', # 行政区app注册
-    'contents.apps.ContensConfig',
+    'contents.apps.ContentsConfig',
     'goods.apps.GoodsConfig',
     'ckeditor', # 富文本编辑器
     'ckeditor_uploader', # 富文本编辑器上传图片模块
