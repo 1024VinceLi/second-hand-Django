@@ -13,6 +13,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from users import serializers, constants
 from users.models import User
+from users.serializers import AddUserBrowsingHistorySerializer
 
 
 class UserView(CreateAPIView):
@@ -206,4 +207,15 @@ class AddressViewSet(CreateModelMixin, UpdateModelMixin, GenericViewSet):
 
 
 
+class UserBrowsingHistoryView(CreateModelMixin, GenericAPIView):
+    """
+    用户浏览历史记录
+    """
+    serializer_class = AddUserBrowsingHistorySerializer
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        """
+        保存
+        """
+        return self.create(request)
