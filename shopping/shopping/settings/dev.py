@@ -140,10 +140,6 @@ FDFS_CLIENT_CONF = os.path.join(BASE_DIR, 'utils/fastdfs/client.conf')
 
 
 
-# 生成的静态html文件保存目录
-GENERATED_STATIC_HTML_FILES_DIR = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'front_end_pc')
-
-
 
 
 
@@ -175,6 +171,7 @@ INSTALLED_APPS = [
     'goods.apps.GoodsConfig',
     'ckeditor', # 富文本编辑器
     'ckeditor_uploader', # 富文本编辑器上传图片模块
+    'django_crontab', # 定时任务
 ]
 
 
@@ -222,6 +219,10 @@ TEMPLATES = [
         },
     },
 ]
+print(TEMPLATES[0].get('DIRS'))
+
+# 生成的静态html文件保存目录
+GENERATED_STATIC_HTML_FILES_DIR = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'front_end_pc')
 
 
 
@@ -281,6 +282,16 @@ CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径,使用了FastDFS, 所以�
 
 
 
+
+
+
+
+
+# 定时任务
+CRONJOBS = [
+    # 每5分钟执行一次生成主页静态文件
+    ('*/5 * * * *','contents.crons.generate_static_index_html','>>' + os.path.join(os.path.dirname(BASE_DIR),'logs/crontab.log'))
+]
 
 
 
@@ -513,6 +524,30 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+
+
+
+
+
+
+
+# 解决crontab中文问题
+CRONTAB_COMMAND_PRREFIX = 'LANG_ALL = zh_cn.UTF-8'
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Static files (CSS, JavaScript, Images)
