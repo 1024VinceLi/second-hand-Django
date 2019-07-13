@@ -301,6 +301,27 @@ CRONJOBS = [
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # mysql数据库配置信息
 DATABASES = {
     'default': {
@@ -504,6 +525,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+
+    # 分页配置
+    'DEFAULT_PAGINATION_CLASS':'shopping.utils.pagination.StandardResultPagination'
 }
 
 JWT_AUTH = {  # JWT配置 token有效期为1天
