@@ -1,9 +1,10 @@
 import re
+
 from django_redis import get_redis_connection
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
+
 from celery_tasks.email.task import send_verify_email
-from goods.models import SKU
 from users import constants
 from users.models import User, Address
 
@@ -215,7 +216,3 @@ class AddUserBrowsingHistorySerializer(serializers.Serializer):
 
         return validated_data
 
-class SKUSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SKU
-        fields = {'id','name','price','default_image_url','comments'}

@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
-from users.serializers import SKUSerializer
+from goods.serializers import SKUSerializer
 
 from goods.models import SKU
 from users import serializers, constants
